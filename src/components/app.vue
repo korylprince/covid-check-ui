@@ -2,6 +2,8 @@
     <v-app>
         <v-app-bar color="primary" dark dense app>
             <v-toolbar-title>COVID-19 Check-in</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-title>{{location}}</v-toolbar-title>
         </v-app-bar>
 
         <v-main :class="{success: status==='success', error: status==='error'}">
@@ -12,7 +14,7 @@
                             <div class="headline">Scan your Badge...</div>
                         </v-card-title>
 
-                        <form novalidate @submit.prevent="submit(user_id)">
+                        <form novalidate @submit.prevent="submit(location_id, user_id)">
                             <v-card-text>
                                 <v-text-field
                                     ref="input"
@@ -48,12 +50,19 @@ export default {
     name: "my-app",
     data() {
         return {
+            location: "",
             user_id: "",
             feedback_active: false,
             feedback: "",
             status: "",
             timer: null,
         }
+    },
+    computed: {
+        location_id() {
+            const params = new URLSearchParams(window.location.search)
+            return params.get("location_id")
+        },
     },
     watch: {
         status(val) {
@@ -71,9 +80,7 @@ export default {
             this.feedback = msg
             this.feedback_active = true
         },
-        async submit(user_id) {
-            const params = new URLSearchParams(window.location.search)
-            const location_id = params.get("location_id")
+        async submit(location_id, user_id) {
             if (location_id == null) {
                 this.add_feedback("Invalid location - please contact your system administrator")
                 this.status = "error"
@@ -104,6 +111,14 @@ export default {
                 this.$refs.input.focus()
             }
         },
+    },
+    async created() {
+        try {
+            this.location = await api.get_location(this.location_id)
+        } catch (err) {
+            this.location = "Unknown Location"
+            console.error("Location error:", err)
+        }
     },
     mounted() {
         this.$refs.input.focus()
