@@ -121,7 +121,12 @@ export default {
         }
     },
     mounted() {
-        this.$refs.input.focus()
+        window.setTimeout(() => {
+            this.$refs.input.focus()
+        }, 1000)
+        window.setInterval(() => {
+            this.$refs.input.focus()
+        }, 10000)
     },
 }
 </script>
