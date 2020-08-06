@@ -9,21 +9,41 @@
         <v-main :class="{success: status==='success', error: status==='error'}">
             <v-container fluid :pa-0="$vuetify.breakpoint.xsOnly">
                 <v-layout justify-center>
-                    <v-card width="100%" max-width="480px">
+                    <v-card width="100%" max-width="600px">
                         <v-card-title primary-title>
                             <div class="headline">Scan your Badge...</div>
                         </v-card-title>
 
-                        <form novalidate @submit.prevent="submit(location_id, user_id)">
-                            <v-card-text>
+                        <v-card-text>
+                            <v-container style="margin-bottom: 5px">
+                                <p>By scanning my badge, I certify I have not been recently exposed to anyone lab-confirmed to be COVID-19 positive, and do not have any of the symptoms of COVID-19 listed below (which would otherwise be abnormal for me):</p>
+                                <ul>
+                                    <li>Temperature greater than 100 °F</li>
+                                    <li>Loss of taste or smell</li>
+                                    <li>Sore throat</li>
+                                    <li>New uncontrolled cough that causes difficulty breathing</li>
+                                    <li>Shortness of breath</li>
+                                    <li>Fatigue</li>
+                                    <li>Chills</li>
+                                    <li>Congestion or runny nose</li>
+                                    <li>Shaking or exaggerated shivering</li>
+                                    <li>Significant muscle pain or ache</li>
+                                    <li>Diarrhea, vomiting, or abdominal pain</li>
+                                    <li>New onset of severe headache, especially with a fever</li>
+                                </ul>
+                            </v-container>
+
+                            <v-divider></v-divider>
+
+                            <form novalidate @submit.prevent="submit(location_id, user_id)" style="margin-top: 10px">
                                 <v-text-field
                                     ref="input"
                                     label="Employee ID"
                                     v-model="user_id"
                                     >
                                 </v-text-field>
-                            </v-card-text>
-                        </form>
+                            </form>
+                        </v-card-text>
                     </v-card>
                 </v-layout>
             </v-container>
