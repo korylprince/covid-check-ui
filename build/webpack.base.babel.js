@@ -66,6 +66,7 @@ const baseConfig = {
         }),
         new FaviconsWebpackPlugin({
             logo: path.resolve(root, "src/img/favicon.png"),
+            publicPath: "./",
             prefix: "icons/",
         }),
     ],
